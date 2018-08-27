@@ -5,7 +5,6 @@
 from universe import *
 
 ''' Programa do Foguete '''
-
 '''==================='''
 '''# Preparacao da Tela e Constantes: '''
 
@@ -13,7 +12,7 @@ from universe import *
 tela = criar_tela_base(LARGURA, ALTURA)
 
 L_FOGUETE = 100
-A_FOGUETE = 100
+A_FOGUETE = 200
 IMG_FOGUETE = carregar_imagem('foguete.png', L_FOGUETE, A_FOGUETE)    #os.path.join('', 'cat1.png'))
 
 
