@@ -1,4 +1,4 @@
-from exercicios import *
+from exercicios1 import *
 
 class Test(unittest.TestCase):
 
@@ -108,4 +108,4 @@ class Test(unittest.TestCase):
         self.assertEqual(milhas_para_pes(5), 26400)
         self.assertEqual(milhas_para_pes(50), 264000)
 
-#unittest.main()  #não excluir (a menos que esteja rodando como unit test no PyCharm)
+unittest.main()  #não excluir (a menos que esteja rodando como unit test no PyCharm)

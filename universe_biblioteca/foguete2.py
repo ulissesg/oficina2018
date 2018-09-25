@@ -84,7 +84,7 @@ def desenha(y):
 #
 # main()
 # mostrar(desenha, 400)
-# animar(desenha)
+animar(desenha)
 
 tela = colocar_imagem(IMG_FOGUETE, tela, 200, 200)
 mostrar_tela()

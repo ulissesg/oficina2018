@@ -22,3 +22,4 @@ class Test(unittest.TestCase):
         self.assertEqual(final_da_tela(LARGURA+DX), True)
         #ta dentro
         self.assertEqual(final_da_tela(LARGURA-DX), False)
+        self.assertEqual(final_da_tela(400), False)
