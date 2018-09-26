@@ -11,8 +11,6 @@ from htdp_pt_br.universe import *
 #(LARGURA, ALTURA) = (600, 400)
 #tela = criar_tela_base(LARGURA, ALTURA) #descomente isso
 
-##Criar/carregar imagens:
-#IMG_GATO = carregar_imagem('cat1.png')
 
 '''==================='''
 '''# Definições de dados: '''
@@ -64,11 +62,8 @@ Quando fazer ... nas posições x y no mouse produz ...   <apagar caso não prec
 Template:
 
 def trata_mouse(estado, x, y, ev):
-    if ev == pg.MOUSEBUTTONDOWN:
-        ... estado
-    elif ev == pg.MOUSEBUTTONUP:
-        ... estado
-    elif ev == pg.MOUSEMOTION:
+
+    if ev == pg.MOUSEMOTION:
         ... estado
     else:
         ... estado
@@ -76,13 +71,13 @@ def trata_mouse(estado, x, y, ev):
 '''
 
 ''' ================= '''
-''' Main (Big Bang):
-'''
+''' Main (Big Bang):'''
+
 
 ''' EstadoMundo -> EstadoMundo '''
-''' inicie o mundo com ... 
-def main(inic):
-    big_bang(inic, tela=tela, frequencia=XX, \
+''' inicie o mundo com ...'''
+def main(m):
+    big_bang(m, tela=tela, frequencia=XX, \
              quando_tick=tock, \
              desenhar=desenha, \
              quando_tecla=..., \
@@ -90,4 +85,3 @@ def main(inic):
              parar_quando=...)           
              
 
-'''

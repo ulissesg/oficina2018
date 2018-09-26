@@ -82,4 +82,4 @@ def main(t):
              frequencia=30,
              quando_tecla=trata_tecla)
 
-main("hv")
+main("")
