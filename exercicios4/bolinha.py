@@ -29,83 +29,94 @@ from htdp_pt_br.universe import *
 (LARGURA, ALTURA) = (600, 400)
 tela = criar_tela_base(LARGURA, ALTURA)
 
-FREQUENCIA = 30
-TAMANHO_BOLA = 20
+FREQUENCIA = 40
+TAMANHO_BOLA = 30
 COR_BOLA = "red"
+
+IMG_BOLA = circulo(TAMANHO_BOLA, Cor(COR_BOLA))
+
+LIMITE_CIMA = altura_imagem(IMG_BOLA) // 2
+LIMITE_BAIXO = ALTURA - altura_imagem(IMG_BOLA) // 2
+LIMITE_ESQUERDO = altura_imagem(IMG_BOLA) // 2
+LIMITE_DIREITO = LARGURA - altura_imagem(IMG_BOLA) // 2
+
 
 '''==================='''
 '''# Definições de dados: '''
 
 #Criando tipo composto.
-Quadrado = definir_estrutura("Quadrado", "angulo, tamanho")
+Bola = definir_estrutura("Bola", "x, y, dx, dy")
 
 ''' Bola pode ser formado por: Bola(int, int, int, int)
-
+interp. Bola ]e formada pelos seguintes campos (x[LIMITE_ESQUERDO, LIMITE_DIREITO], y[LIMITE_CIMA, LIMITE_BAIXO], dx, dy) 
 '''
+#EXEMPLOS
+BOLA_1 = Bola(50,50,2,3)
+BOLA_2 = Bola(300,200,2,3)
+BOLA_3 = Bola(500,400,2,-3)
+BOLA_4 = Bola(600,300,-2,-3)
 
-
+#template
+'''
+def fn_para_bola(b):
+    if b.y >= LIMITE_BAIXO and b.x >= LIMITE_DIREITO:
+        ...b.x
+        ...b.dx
+        
+    elif b.y <= LIMITE_CIMA and b.x <= LIMITE_ESQUERDO:
+        ...b.x
+        ...b.dx
+        
+    elif b.y <= LIMITE_CIMA or b.y >= LIMITE_BAIXO:
+        ...b.y
+        ...b.dy
+        
+    elif b.x <= LIMITE_ESQUERDO or b.x >= LIMITE_DIREITO:
+        ...b.y
+        ...b.dy
+    #Else
+    ...b.y
+    ...b.dy
+        
+'''
 
 '''===================='''
 ''' Funções: '''
 
 
 '''
-tock: EstadoMundo -> EstadoMundo
-Produz o próximo ...
-# !!! TODO
-def tock(estado):
-    pass
+mover_bola: Bola -> Bola
+Produz o próximo estado (Bola)'''
+
+def mover_bola(b):
+
+    if b.y >= LIMITE_BAIXO and b.x >= LIMITE_DIREITO:
+        b = Bola(b.x, b.y, -b.dx, -b.dy)
+        b = Bola(b.x + b.dx, b.y + b.dy, b.dx, b.dy)
+        return b
+
+    elif b.y <= LIMITE_CIMA and b.x <= LIMITE_ESQUERDO:
+        b = Bola(b.x, b.y, -b.dx, -b.dy)
+        b = Bola(b.x + b.dx, b.y + b.dy, b.dx, b.dy)
+        return b
+
+    elif b.y <= LIMITE_CIMA or b.y >= LIMITE_BAIXO:
+        b = Bola(b.x, b.y, b.dx, -b.dy)
+        b = Bola(b.x + b.dx, b.y + b.dy, b.dx, b.dy)
+        return b
+
+    elif b.x <= LIMITE_ESQUERDO or b.x >= LIMITE_DIREITO:
+        b = Bola(b.x, b.y, -b.dx, b.dy)
+        b = Bola(b.x + b.dx, b.y + b.dy, b.dx, b.dy)
+        return b
+
+    b = Bola(b.x + b.dx, b.y + b.dy, b.dx, b.dy)
+    return b
+'''
+desenha: Bola -> Imagem
+Desenha a imagem da bola na tela
 '''
 
-
-'''
-desenha: EstadoMundo -> Imagem
-Desenha...
-# !!! TODO
-def desenha(estado):
-    pass
-'''
-
-
-'''
-trata_tecla: EstadoMundo, Tecla -> EstadoMundo
-Quando teclar ... produz ... <apagar caso não precise usar>
-# !!! TODO
-Template:
-
-def trata_tecla(estado, tecla):
-    if tecla == pg.K_SPACE:
-        ... estado
-    else:
-        ... estado
-'''
-
-
-'''
-trata_mouse: EstadoMundo, Int, Int, EventoMouse -> EstadoMundo:
-Quando fazer ... nas posições x y no mouse produz ...   <apagar caso não precise usar>
-# !!! TODO
-Template:
-
-def trata_mouse(estado, x, y, ev):
-
-    if ev == pg.MOUSEMOTION:
-        ... estado
-    else:
-        ... estado
-
-'''
-
-''' ================= '''
-''' Main (Big Bang):'''
-
-
-''' EstadoMundo -> EstadoMundo '''
-''' inicie o mundo com ...'''
-def main(m):
-    big_bang(m, tela=tela, frequencia=XX,
-             quando_tick=tock,
-             desenhar=desenha
-            )
-
+def desenha(b):
+    colocar_imagem(IMG_BOLA,tela, b.x, b.y)
 

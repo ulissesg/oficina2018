@@ -8,7 +8,7 @@ from quadrado_giratorio import*
 def main(quad):
     big_bang(quad, tela=tela, frequencia= FREQUENCIA,
              quando_tick=fn_quadrado,
-             desenhar=desenha,
+             desenhar=desenha_q,
              quando_tecla= trata_tecla,
              modo_debug=True
              )
