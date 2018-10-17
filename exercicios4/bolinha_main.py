@@ -1,4 +1,4 @@
-from bolinha import*
+from bolinha import *
 
 ''' ================= '''
 ''' Main (Big Bang):'''

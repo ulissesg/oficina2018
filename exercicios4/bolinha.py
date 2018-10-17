@@ -36,9 +36,9 @@ COR_BOLA = "red"
 IMG_BOLA = circulo(TAMANHO_BOLA, Cor(COR_BOLA))
 
 LIMITE_CIMA = altura_imagem(IMG_BOLA) // 2
-LIMITE_BAIXO = ALTURA - altura_imagem(IMG_BOLA) // 2
-LIMITE_ESQUERDO = altura_imagem(IMG_BOLA) // 2
-LIMITE_DIREITO = LARGURA - altura_imagem(IMG_BOLA) // 2
+LIMITE_BAIXO = ALTURA - altura_imagem(IMG_BOLA) // 1.5
+LIMITE_ESQUERDO = altura_imagem(IMG_BOLA) // 1.5
+LIMITE_DIREITO = LARGURA - altura_imagem(IMG_BOLA) // 1.5
 
 
 '''==================='''
@@ -117,6 +117,6 @@ desenha: Bola -> Imagem
 Desenha a imagem da bola na tela
 '''
 
-def desenha(b):
+def desenha_b(b):
     colocar_imagem(IMG_BOLA,tela, b.x, b.y)
 

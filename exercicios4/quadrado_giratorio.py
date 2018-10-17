@@ -39,7 +39,7 @@ X = LARGURA // 2
 Y = ALTURA // 2
 FREQUENCIA = 30
 VELOCIDADE_ANGULO = 5
-VELOCIDADE_TAMANHO = 20
+VELOCIDADE_TAMANHO = 5
 COR_QUADRADO = "red"
 MSG_ERRO = "ERRO"
 
@@ -90,7 +90,7 @@ def fn_quadrado(quad):
 desenha: Quadrado -> Imagem
 Desenha um quadrado com o tamanho e angulo definidos na tela
 '''
-def desenha(quad):
+def desenha_q(quad):
     quadra = quadrado(quad.tamanho, Cor(COR_QUADRADO))
     quadra = girar(quadra, quad.angulo)
     colocar_imagem(quadra,tela, X, Y)
