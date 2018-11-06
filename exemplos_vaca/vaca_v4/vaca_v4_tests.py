@@ -1,5 +1,5 @@
 import unittest
-from vaca_v3 import *
+from vaca_v4 import *
 
 
 class Test(unittest.TestCase):
@@ -28,12 +28,35 @@ class Test(unittest.TestCase):
         self.assertEqual(trata_tecla_vaca(Vaca(LARGURA//2, 3), TC_VIRAR), Vaca(LARGURA//2, -3))
         self.assertEqual(trata_tecla_vaca(Vaca(LARGURA // 2, -3), TC_VIRAR), Vaca(LARGURA // 2, 3))
         self.assertEqual(trata_tecla_vaca(Vaca(LARGURA // 2, 3), pg.K_0), Vaca(LARGURA // 2, 3))
+        self.assertEqual(trata_tecla_vaca(
+                            Vaca(LARGURA//2, 0),
+                            pg.K_RIGHT),
+                            Vaca(LARGURA//2, DX))
+        self.assertEqual(trata_tecla_vaca(
+                            Vaca(LARGURA // 2, 0),
+                            pg.K_LEFT),
+                            Vaca(LARGURA // 2, -DX))
 
     def test_trata_tecla_jogo(self):
         self.assertEqual( trata_tecla_jogo(JOGO_GAME_OVER, pg.K_RETURN),
                           JOGO_INICIAL )
         self.assertEqual(trata_tecla_jogo(JOGO_GAME_OVER, pg.K_SPACE),
                          JOGO_GAME_OVER)
+
+    def test_trata_solta_jogo(self):
+        self.assertEqual( trata_solta_jogo(JOGO_MEIO, pg.K_RIGHT ),
+                          Jogo(Vaca(LARGURA // 4, 0), criar_lista(Churrasqueiro(LARGURA // 2, ALTURA // 4, 6)), False)
+                          )
+        self.assertEqual(trata_solta_jogo(
+                            Jogo(Vaca(LARGURA // 4, -3), criar_lista(Churrasqueiro(LARGURA // 2, ALTURA // 4, 6)), False),
+                            pg.K_LEFT),
+                         Jogo(Vaca(LARGURA // 4, 0), criar_lista(Churrasqueiro(LARGURA // 2, ALTURA // 4, 6)), False)
+                         )
+        self.assertEqual(trata_solta_jogo(
+                            JOGO_MEIO,
+                            pg.K_a),
+            JOGO_MEIO
+            )
 
     def test_mover_tudo(self):
 

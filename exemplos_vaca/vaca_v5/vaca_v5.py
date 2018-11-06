@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from htdp_pt_br.universe import *
+import random
 
 ''' Programa da vaquinha '''
 
@@ -31,7 +32,9 @@ LIMITE_CIMA = 0 #altura_imagem(IMG_CHURRASQUEIRO) // 2
 LIMITE_BAIXO = ALTURA
                #- altura_imagem(IMG_CHURRASQUEIRO) // 2
 
+DX = 3
 
+TEMPO_CADA_BROTAGEM = 5
 
 # API = Application Programming Interface
 
@@ -46,7 +49,7 @@ interp. representa a posição da vaca no eixo x, e sua velocidade
 e direção (dx)
 '''
 #EXEMPLOS:
-VACA_INICIAL = Vaca(LIMITE_ESQUERDO, 3)
+VACA_INICIAL = Vaca(LIMITE_ESQUERDO, 0)
 VACA_MEIO = Vaca(LARGURA//2, 3)
 VACA_FIM = Vaca(LIMITE_DIREITO, 3)
 VACA_FIM_VIRADA = Vaca(LIMITE_DIREITO, -3)
@@ -108,19 +111,19 @@ def fn_para_lista(lista):
 '''
 
 
-Jogo = definir_estrutura("Jogo", "vaca, churrasqueiros, game_over")
-''' Jogo pode ser formado assim: Jogo(Vaca, ListaChurras, Boolean)
+Jogo = definir_estrutura("Jogo", "vaca, churrasqueiros, game_over, tempo_brotagem_churras, pontuacao, proximo_alvo")
+''' Jogo pode ser formado assim: Jogo(Vaca, ListaChurras, Boolean, Int+)
 interp. representa o jogo todo com uma vaca e zero ou mais churrasqueiros. O campo
 game_over indica se o jogo está acabado ou não.
 '''
 #EXEMPLOS:
-JOGO_INICIAL_ANTIGO = Jogo(VACA_INICIAL, criar_lista(CHURRAS_INICIAL), False)  #CHAMANDO CONSTRUTOR
-JOGO_MEIO = Jogo(Vaca(LARGURA//4, 3), criar_lista(Churrasqueiro(LARGURA//2, ALTURA//4, 6)), False)
-JOGO_COLIDINDO = Jogo(VACA_MEIO, criar_lista(CHURRAS_MEIO), False)
-JOGO_GAME_OVER = Jogo(VACA_MEIO, criar_lista(CHURRAS_MEIO), True)
+JOGO_INICIAL_ANTIGO = Jogo(VACA_INICIAL, criar_lista(CHURRAS_INICIAL), False, 0, 0, LIMITE_DIREITO)  #CHAMANDO CONSTRUTOR
+JOGO_MEIO = Jogo(Vaca(LARGURA//4, 3), criar_lista(Churrasqueiro(LARGURA//2, ALTURA//4, 6)), False, 0, 0, LIMITE_DIREITO)
+JOGO_COLIDINDO = Jogo(VACA_MEIO, criar_lista(CHURRAS_MEIO), False, 0, 0, LIMITE_DIREITO)
+JOGO_GAME_OVER = Jogo(VACA_MEIO, criar_lista(CHURRAS_MEIO), True, 0, 0, LIMITE_DIREITO)
 
-JOGO_INICIAL = Jogo(VACA_INICIAL, L_CHURRAS_INICIAL, False)
-
+JOGO_INICIAL_ANTIGO2 = Jogo(VACA_INICIAL, L_CHURRAS_INICIAL, False, 0, 0, LIMITE_DIREITO)
+JOGO_INICIAL = Jogo(VACA_INICIAL, VAZIA, False, 0, 0, LIMITE_DIREITO)
 #TEMPLATE
 '''
 def fn_para_jogo(jogo):
@@ -147,13 +150,11 @@ def colidem(vaca, churras):
     cima_churras = churras.y - METADE_H_CHURRAS
     baixo_churras = churras.y + METADE_H_CHURRAS
 
-    if direita_vaca >= esquerda_churras and \
+    return direita_vaca >= esquerda_churras and \
         esquerda_vaca <= direita_churras and \
         baixo_vaca >= cima_churras and \
-        cima_vaca <= baixo_churras:
-        return True
-    #else
-    return False
+        cima_vaca <= baixo_churras
+
 
 
 '''
@@ -190,16 +191,47 @@ def mover_churrasqueiros(churrasqueiros):
     return criar_lista([mover_churras(churras) for churras in churrasqueiros ])
 
 '''
+criar_churras_aleatorio: -> Churrasqueiro
+'''
+def criar_churras_aleatorio():
+    return Churrasqueiro(random.randrange(LIMITE_ESQUERDO, LIMITE_DIREITO+1),
+                         random.randrange(LIMITE_CIMA, LIMITE_BAIXO + 1),
+                         random.randrange(-5, 6))
+
+
+def vaca_atingiu_alvo(vaca, alvo):
+    return alvo - METADE_L_VACA <= vaca.x <= alvo + METADE_L_VACA
+
+'''
 mover_tudo: Jogo -> Jogo
 Produz o próximo estado do jogo
 '''
 def mover_tudo(jogo):
     if (not colide_algum_churras(jogo.vaca, jogo.churrasqueiros)):
-        nova_vaca = mover_vaca(jogo.vaca)   ##funcao helper (auxiliar)
-        novos_churras = mover_churrasqueiros(jogo.churrasqueiros)  ##funcao helper
-        return Jogo(nova_vaca, novos_churras, False)
+        vaca_movida = mover_vaca(jogo.vaca)   ##funcao helper (auxiliar)
+        if vaca_atingiu_alvo(jogo.vaca, jogo.proximo_alvo):
+            pontuacao_nova = jogo.pontuacao + 10
+            if jogo.proximo_alvo == LIMITE_DIREITO:
+                novo_alvo = LIMITE_ESQUERDO
+            elif jogo.proximo_alvo == LIMITE_ESQUERDO:
+                novo_alvo = LIMITE_DIREITO
+        else:
+            pontuacao_nova = jogo.pontuacao
+            novo_alvo = jogo.proximo_alvo
+
+        # pontuacao_nova = jogo.pontuacao + 10 \
+        #     if vaca_atingiu_alvo(jogo.vaca, jogo.proximo_alvo) else jogo.pontuacao
+
+        churras_movidos = mover_churrasqueiros(jogo.churrasqueiros)  ##funcao helper
+        novo_tempo_brotagem = jogo.tempo_brotagem_churras + 1
+        if (novo_tempo_brotagem >= TEMPO_CADA_BROTAGEM * FREQUENCIA):
+            churras_final = juntar(criar_churras_aleatorio(), churras_movidos)
+            novo_tempo_brotagem = 0
+        else:
+            churras_final = churras_movidos
+        return Jogo(vaca_movida, churras_final, False, novo_tempo_brotagem, pontuacao_nova, novo_alvo)
     else:
-        return Jogo(jogo.vaca, jogo.churrasqueiros, True)
+        return Jogo(jogo.vaca, jogo.churrasqueiros, True, jogo.tempo_brotagem_churras, jogo.pontuacao, jogo.proximo_alvo)
 
 
 '''
@@ -247,11 +279,17 @@ desenha_churrasqueiros: ListChurras -> Imagem
 Desenha todos os churras
 '''
 def desenha_churrasqueiros(churrasqueiros):
-    if churrasqueiros.vazia:
-        return   #caso base
-    else:
-        desenha_churras(churrasqueiros.primeiro)
-        desenha_churrasqueiros(churrasqueiros.resto)
+    # if churrasqueiros.vazia:
+    #     return   #caso base
+    # else:
+    #     desenha_churras(churrasqueiros.primeiro)
+    #     desenha_churrasqueiro
+    # s(churrasqueiros.resto)
+    for churras in churrasqueiros:
+        desenha_churras(churras)
+
+    # for i in range(0, len(churrasqueiros)):
+    #     desenha_churras(churrasqueiros[i])
 
 '''
 desenha_jogo: Jogo -> Imagem
@@ -278,18 +316,22 @@ def desenha_vaca(vaca):
 trata_tecla_jogo: Jogo, Tecla -> Jogo
 Trata tecla para o jogo todo.
 '''
-# !!! TODO
 def trata_tecla_jogo(jogo, tecla):
     if (not jogo.game_over):
         nova_vaca = trata_tecla_vaca(jogo.vaca, tecla)
-        return Jogo(nova_vaca, jogo.churrasqueiros, jogo.game_over)
+        return Jogo(nova_vaca, jogo.churrasqueiros, jogo.game_over, jogo.tempo_brotagem_churras, jogo.pontuacao, jogo.proximo_alvo)
     elif tecla == pg.K_RETURN:
         return JOGO_INICIAL
     else:
         return jogo
 
-
-
+'''
+trata_solta_jogo: Jogo Tecla -> Jogo
+'''
+def trata_solta_jogo(jogo, tecla):
+    if tecla == pg.K_LEFT or tecla == pg.K_RIGHT:
+        return Jogo(Vaca(jogo.vaca.x, 0), jogo.churrasqueiros, jogo.game_over, jogo.tempo_brotagem_churras, jogo.pontuacao, jogo.proximo_alvo)
+    return jogo
 
 '''
 trata_tecla: Vaca, Tecla -> Vaca  ##assinatura
@@ -297,6 +339,10 @@ Quando teclar "espaço" vira a vaca  '''
 def trata_tecla_vaca(vaca, tecla):
     if tecla == TC_VIRAR:
         return Vaca(vaca.x, -vaca.dx)
+    elif tecla == pg.K_RIGHT:
+        return Vaca(vaca.x, DX)
+    elif tecla == pg.K_LEFT:
+        return Vaca(vaca.x, -DX)
     else:
         return vaca
 

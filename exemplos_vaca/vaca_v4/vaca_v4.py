@@ -31,6 +31,7 @@ LIMITE_CIMA = 0 #altura_imagem(IMG_CHURRASQUEIRO) // 2
 LIMITE_BAIXO = ALTURA
                #- altura_imagem(IMG_CHURRASQUEIRO) // 2
 
+DX = 3
 
 
 # API = Application Programming Interface
@@ -46,7 +47,7 @@ interp. representa a posição da vaca no eixo x, e sua velocidade
 e direção (dx)
 '''
 #EXEMPLOS:
-VACA_INICIAL = Vaca(LIMITE_ESQUERDO, 3)
+VACA_INICIAL = Vaca(LIMITE_ESQUERDO, 0)
 VACA_MEIO = Vaca(LARGURA//2, 3)
 VACA_FIM = Vaca(LIMITE_DIREITO, 3)
 VACA_FIM_VIRADA = Vaca(LIMITE_DIREITO, -3)
@@ -147,13 +148,11 @@ def colidem(vaca, churras):
     cima_churras = churras.y - METADE_H_CHURRAS
     baixo_churras = churras.y + METADE_H_CHURRAS
 
-    if direita_vaca >= esquerda_churras and \
+    return direita_vaca >= esquerda_churras and \
         esquerda_vaca <= direita_churras and \
         baixo_vaca >= cima_churras and \
-        cima_vaca <= baixo_churras:
-        return True
-    #else
-    return False
+        cima_vaca <= baixo_churras
+
 
 
 '''
@@ -247,11 +246,17 @@ desenha_churrasqueiros: ListChurras -> Imagem
 Desenha todos os churras
 '''
 def desenha_churrasqueiros(churrasqueiros):
-    if churrasqueiros.vazia:
-        return   #caso base
-    else:
-        desenha_churras(churrasqueiros.primeiro)
-        desenha_churrasqueiros(churrasqueiros.resto)
+    # if churrasqueiros.vazia:
+    #     return   #caso base
+    # else:
+    #     desenha_churras(churrasqueiros.primeiro)
+    #     desenha_churrasqueiro
+    # s(churrasqueiros.resto)
+    for churras in churrasqueiros:
+        desenha_churras(churras)
+
+    # for i in range(0, len(churrasqueiros)):
+    #     desenha_churras(churrasqueiros[i])
 
 '''
 desenha_jogo: Jogo -> Imagem
@@ -278,7 +283,6 @@ def desenha_vaca(vaca):
 trata_tecla_jogo: Jogo, Tecla -> Jogo
 Trata tecla para o jogo todo.
 '''
-# !!! TODO
 def trata_tecla_jogo(jogo, tecla):
     if (not jogo.game_over):
         nova_vaca = trata_tecla_vaca(jogo.vaca, tecla)
@@ -288,8 +292,13 @@ def trata_tecla_jogo(jogo, tecla):
     else:
         return jogo
 
-
-
+'''
+trata_solta_jogo: Jogo Tecla -> Jogo
+'''
+def trata_solta_jogo(jogo, tecla):
+    if tecla == pg.K_LEFT or tecla == pg.K_RIGHT:
+        return Jogo(Vaca(jogo.vaca.x, 0), jogo.churrasqueiros, jogo.game_over)
+    return jogo
 
 '''
 trata_tecla: Vaca, Tecla -> Vaca  ##assinatura
@@ -297,6 +306,10 @@ Quando teclar "espaço" vira a vaca  '''
 def trata_tecla_vaca(vaca, tecla):
     if tecla == TC_VIRAR:
         return Vaca(vaca.x, -vaca.dx)
+    elif tecla == pg.K_RIGHT:
+        return Vaca(vaca.x, DX)
+    elif tecla == pg.K_LEFT:
+        return Vaca(vaca.x, -DX)
     else:
         return vaca
 
