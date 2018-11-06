@@ -17,14 +17,18 @@ um golzinho).
 
 '''
 
+'''Ping Pong multiplayer'''
+
 from pong_v1 import *
+
+'''Definicao de dados'''
 
 Jogo = definir_estrutura("Jogo", "bola, raquete, raquete2")
 ''' Jogo pode ser formado assim: Jogo(Bola, Raquete, Raquete)
 interp. representa o jogo com uma bolinha quicante e dois raquete.
 '''
 #EXEMPLOS:
-JOGO_4 = Jogo(BOLA_1, RAQUETE_1, Raquete(100,500))
+JOGO_4 = Jogo(BOLA_1, RAQUETE_1, Raquete(100,100))
 JOGO_2 = Jogo(BOLA_2, RAQUETE_2, RAQUETE_1)
 JOGO_3 = Jogo(BOLA_3, RAQUETE_3, RAQUETE_2)
 
@@ -35,8 +39,14 @@ def fn_para_jogo(jogo):
         jogo.raquete
         jogo.raquete2
 '''
+
+'''Funcoes'''
+
 def mover_jogo_2(jogo):
-    # TODO quando bater nas raquetes quicar
+    if (colidirem(jogo.bola, jogo.raquete)):
+        return Jogo(mover_bola(Bola(jogo.bola.x, jogo.bola.y, jogo.bola.dx, -jogo.bola.dy)),jogo.raquete, jogo.raquete2)
+    if (colidirem(jogo.bola, jogo.raquete2)):
+        return Jogo(mover_bola(Bola(jogo.bola.x, jogo.bola.y, jogo.bola.dx, -jogo.bola.dy)),jogo.raquete, jogo.raquete2)
     return Jogo(mover_bola(jogo.bola), jogo.raquete, jogo.raquete2)
 
 '''
@@ -45,23 +55,19 @@ Quando o mouse se movimentar para os lados na posiçao x no mouse produz a nova 
 '''
 def trata_mouse_2(jogo, x, y, ev):
     if ev == pg.MOUSEMOTION:
-        # TODO nao esta funcionando
-        jogo.raquete.x = x
-        return Jogo(jogo.bola, jogo.raquete, jogo.raquete2)
+        return Jogo(jogo.bola, Raquete(x, jogo.raquete.y), jogo.raquete2)
     return jogo
 
 def trata_tecla(jogo, tecla):
-    # TODO nao esta funcionando
     if tecla == pg.K_LEFT:
-        jogo.raquete2.x = jogo.raquete2.x + 10
+        return Jogo(jogo.bola, jogo.raquete, Raquete(jogo.raquete2.x - 10, jogo.raquete2.y))
     elif tecla == pg.K_RIGHT:
-        jogo.raquete2.x = jogo.raquete2.x - 10
+        return Jogo(jogo.bola, jogo.raquete, Raquete(jogo.raquete2.x + 10, jogo.raquete2.y))
     return jogo
 
 def desenha_2(jogo):
     desenha_b(jogo.bola)
     desenha_raq(jogo.raquete)
-    # TODO as duas raquetes estao no mesmo lugar
     desenha_raq(jogo.raquete2)
 
-# TODO testes
+# TODO testes trata mouse , trata tecla

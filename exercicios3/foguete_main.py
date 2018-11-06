@@ -1,4 +1,4 @@
-from foguete import *
+
 
 def main(f):
     big_bang(f, frequencia=FREQUENCIA,

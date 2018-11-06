@@ -7,9 +7,13 @@ e uma bolinha "rolando" pela tela e quicando nas
 bordas também em velocidade constante.
 
 '''
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from bolinha import *
 from quadrado_giratorio import *
+
+'''Definicao de dados'''
 
 Jogo = definir_estrutura("Jogo", "bola, quadrado")
 ''' Jogo pode ser formado assim: Jogo(Bola, Quadrado)
@@ -28,6 +32,7 @@ def fn_para_jogo(jogo):
         jogo.quadrado
 '''
 
+'''Funcoes'''
 
 '''
 fn_jogo: Jogo -> Jogo

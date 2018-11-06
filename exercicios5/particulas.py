@@ -7,6 +7,11 @@ from bolinha import *
 import random
 import math
 
+'''
+OBS: QUANDO FIZ AINDA NAO TINHA SIDO APRESENTADO NA AULA LISTA...
+POT ISSO FIZ VARIAS BOLAS INDIVIDUAIS.
+'''
+
 BOLA_1_P= Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
 BOLA_2_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
 BOLA_3_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
@@ -39,7 +44,6 @@ def colidem(b1, b2):
     return False
 
 def fn_jogo(jogo):
-    # TODO
     #  Compracoes com a bola 1
     if (colidem(jogo.bola1, jogo.bola2)):
         return Jogo(mover_bola(Bola(jogo.bola1.x,jogo.bola1.y,-jogo.bola1.dx, -jogo.bola1.dy)),

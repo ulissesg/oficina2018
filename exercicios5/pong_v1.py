@@ -13,7 +13,7 @@ ao mover o ponteiro do mouse pela tela
 
 from bolinha import *
 
-''' ping pong '''
+''' ping pong  single player'''
 
 '''==================='''
 '''# Preparacao da Tela e Constantes: '''
@@ -32,7 +32,7 @@ Raquete = definir_estrutura("Raquete", "x, y")
 interp. representa uma raquete no jogo.
 '''
 #EXEMPLOS:
-RAQUETE_1 = Raquete(LARGURA//2, ALTURA - 20)
+RAQUETE_1 = Raquete(LARGURA//2, ALTURA - 50)
 RAQUETE_2 = Raquete(100, ALTURA -20)
 RAQUETE_3 = Raquete(300, ALTURA - 20)
 
@@ -67,17 +67,20 @@ interp. gera o novo estado do jogo
 ''' Funções: '''
 def colidirem(b, r):
     L_CIMA_RAQUETE = r.y - METADE_H_RAQUETE
+    L_BAIXO_RAQUETE = r.y + METADE_H_RAQUETE
     L_DIREITO_RAQUETE = r.x + METADE_L_RAQUETE
     L_ESQUERDO_RAQUETE = r.x - METADE_L_RAQUETE
-    LIMITE_BOLA = b.y + TAMANHO_BOLA
+    LIMITE_BOLA_CIMA = b.y + TAMANHO_BOLA
+    LIMITE_BOLA_BAIXO = b.y - TAMANHO_BOLA
 
-    if (LIMITE_BOLA >= L_CIMA_RAQUETE) and (b.x >= L_ESQUERDO_RAQUETE and b.x <= L_DIREITO_RAQUETE):
+    if (LIMITE_BOLA_CIMA >= L_CIMA_RAQUETE or LIMITE_BOLA_BAIXO >= L_CIMA_RAQUETE) and \
+            (b.x >= L_ESQUERDO_RAQUETE and b.x <= L_DIREITO_RAQUETE):
         return True
     return False
 
 def mover_jogo(jogo):
     if (colidirem(jogo.bola, jogo.raquete)):
-        return Jogo(mover_bola(Bola(jogo.bola.x, jogo.bola.y, jogo.bola.x, -jogo.bola.y)),jogo.raquete)
+        return Jogo(mover_bola(Bola(jogo.bola.x, jogo.bola.y, jogo.bola.dx, -jogo.bola.dy)),jogo.raquete)
     return Jogo(mover_bola(jogo.bola),jogo.raquete)
 '''
 desenha_raq: Raquete -> Raquete
@@ -99,6 +102,6 @@ Quando o mouse se movimentar para os lados na posiçao x no mouse produz a nova 
 def trata_mouse(jogo, x, y, ev):
 
     if ev == pg.MOUSEMOTION:
-        return Jogo(jogo.bola, Raquete(x, jogo.raquete.y))
+        return Jogo(jogo.bola, Raquete(x, y))
     return jogo
-# TODO testes
+# TODO testes colidem trata mouse
