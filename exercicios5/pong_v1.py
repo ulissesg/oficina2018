@@ -70,11 +70,17 @@ def colidirem(b, r):
     L_BAIXO_RAQUETE = r.y + METADE_H_RAQUETE
     L_DIREITO_RAQUETE = r.x + METADE_L_RAQUETE
     L_ESQUERDO_RAQUETE = r.x - METADE_L_RAQUETE
-    LIMITE_BOLA_CIMA = b.y + TAMANHO_BOLA
-    LIMITE_BOLA_BAIXO = b.y - TAMANHO_BOLA
 
-    if (LIMITE_BOLA_CIMA >= L_CIMA_RAQUETE or LIMITE_BOLA_BAIXO >= L_CIMA_RAQUETE) and \
-            (b.x >= L_ESQUERDO_RAQUETE and b.x <= L_DIREITO_RAQUETE):
+    LIMITE_BOLA_CIMA = b.y - TAMANHO_BOLA
+    LIMITE_BOLA_BAIXO = b.y + TAMANHO_BOLA
+    LIMITE_ESQUERDO_BOLA = b.x - TAMANHO_BOLA
+    LIMITE_DIREITO_BOLA = b.x + TAMANHO_BOLA
+
+    if (b.x >= L_ESQUERDO_RAQUETE and b.x <= L_DIREITO_RAQUETE) and \
+            LIMITE_DIREITO_BOLA >= L_ESQUERDO_RAQUETE and \
+            LIMITE_ESQUERDO_BOLA <= L_DIREITO_RAQUETE and \
+            LIMITE_BOLA_BAIXO >= L_CIMA_RAQUETE and \
+            LIMITE_BOLA_CIMA <= L_BAIXO_RAQUETE:
         return True
     return False
 
@@ -102,6 +108,15 @@ Quando o mouse se movimentar para os lados na posiçao x no mouse produz a nova 
 def trata_mouse(jogo, x, y, ev):
 
     if ev == pg.MOUSEMOTION:
-        return Jogo(jogo.bola, Raquete(x, y))
+        return Jogo(jogo.bola, Raquete(x, jogo.raquete.y))
     return jogo
+
+
+
+
+
+
+
+
+
 # TODO testes colidem trata mouse

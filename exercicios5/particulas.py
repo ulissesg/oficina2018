@@ -12,18 +12,18 @@ OBS: QUANDO FIZ AINDA NAO TINHA SIDO APRESENTADO NA AULA LISTA...
 POT ISSO FIZ VARIAS BOLAS INDIVIDUAIS.
 '''
 
-BOLA_1_P= Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
-BOLA_2_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
-BOLA_3_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
-BOLA_4_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
-BOLA_5_P = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
+BOLA_1= Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
+BOLA_2 = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
+BOLA_3 = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
+BOLA_4 = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
+BOLA_5 = Bola(random.randrange(LIMITE_ESQUERDO,LIMITE_DIREITO),random.randrange(LIMITE_CIMA,LIMITE_BAIXO),random.randrange(2,5),random.randrange(2,5))
 
 Jogo = definir_estrutura("Jogo", "bola1, bola2, bola3, bola4, bola5")
 ''' Jogo pode ser formado assim: Jogo(Bola, Bola, Bola, Bola, Bola)
 interp. representa o jogo com varias bolinha quicantes.
 '''
 #EXEMPLOS:
-JOGO_1 = Jogo(BOLA_1_P, BOLA_2_P, BOLA_3_P, BOLA_4_P, BOLA_5_P)
+JOGO_1 = Jogo(BOLA_1, BOLA_2, BOLA_3, BOLA_4, BOLA_5)
 JOGO_2 = Jogo(BOLA_3, BOLA_5, BOLA_1, BOLA_2, BOLA_4)
 
 #TEMPLATE
