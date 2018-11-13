@@ -16,4 +16,4 @@ def main(jogo):
              )
 
 
-main(JOGO_4)
+main(JOGO_2)

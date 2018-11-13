@@ -65,6 +65,11 @@ interp. gera o novo estado do jogo
 
 '''===================='''
 ''' Funções: '''
+
+'''
+colidirem: Bola, Raquete -> Boolean
+'''
+
 def colidirem(b, r):
     L_CIMA_RAQUETE = r.y - METADE_H_RAQUETE
     L_BAIXO_RAQUETE = r.y + METADE_H_RAQUETE

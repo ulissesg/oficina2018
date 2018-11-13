@@ -31,7 +31,7 @@ tela = criar_tela_base(LARGURA, ALTURA)
 
 FREQUENCIA = 40
 TAMANHO_BOLA = 30
-COR_BOLA = "red"
+COR_BOLA = "black"
 
 IMG_BOLA = circulo(TAMANHO_BOLA, Cor(COR_BOLA))
 

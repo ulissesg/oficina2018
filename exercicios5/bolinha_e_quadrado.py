@@ -53,7 +53,5 @@ def desenha(jogo):
 trata_tecla_jogo: 
 '''
 def trata_tecla_jogo(jogo, tecla):
-    if tecla == pg.K_SPACE:
-        return Jogo(jogo.bola, QUADRADO_INICIAL)
-    return jogo
+    return Jogo(jogo.bola, trata_tecla(jogo.quadrado, tecla))
 
